@@ -6,10 +6,10 @@ ENV PARSE_HOME /parse
 #ADD *.js ${PARSE_HOME}/
 #ADD *.json ${PARSE_HOME}/
 
-ADD index.js ${PARSE_HOME}/index.js
-ADD package.json ${PARSE_HOME}/package.json
+ADD index.js ${PARSE_HOME}/
+ADD package.json ${PARSE_HOME}/
 
-ADD jsconfig.json ${PARSE_HOME}/jsconfig.json
+ADD jsconfig.json ${PARSE_HOME}/
 
 ## deployment is unnecessary
 #ADD app.json ${PARSE_HOME}/app.json # heroku
@@ -35,6 +35,8 @@ RUN npm install
 #ENV DOTNET_KEY
 #ENV FILE_KEY
 #ENV FACEBOOK_APP_IDS "xx,xxx"
+#ENV SERVER_URL
+#ENV MAX_UPLOAD_SIZE
 
 ENV PORT 1337
 
@@ -42,4 +44,19 @@ EXPOSE $PORT
 VOLUME $CLOUD_CODE_HOME
 ENV NODE_PATH .
 
-CMD [ "npm", "start" ]
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV SSH_PORT 2022
+EXPOSE $SSH_PORT
+
+ADD ssh-add-key /sbin/
+
+RUN useradd -s /bin/bash git
+RUN echo "git ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+ADD docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["npm", "start"]

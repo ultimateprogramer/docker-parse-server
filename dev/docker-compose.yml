@@ -1,6 +1,6 @@
 parse-server:
   #build: .
-  image: yongjhih/parse-server
+  image: yongjhih/parse-server:dev
   ports:
     - "1337:1337"
     - "2022:22"
@@ -8,7 +8,7 @@ parse-server:
     DATABASE_URI: $DATABASE_URI
     APP_ID: $APP_ID
     MASTER_KEY: $MASTER_KEY
-    PARSE_MOUNT: $PARSE_MOUNT # /parse
+    PARSE_MOUNT: $PARSE_MOUNT
     COLLECTION_PREFIX: $COLLECTION_PREFIX
     CLIENT_KEY: $CLIENT_KEY
     REST_API_KEY: $REST_API_KEY
@@ -18,23 +18,7 @@ parse-server:
     FILE_KEY: $FILE_KEY
     FACEBOOK_APP_IDS: $FACEBOOK_APP_IDS
     SERVER_URL: $SERVER_URL
-    MAX_UPLOAD_SIZE: $MAX_UPLOAD_SIZE # 20mb
-    GCM_ID: $GCM_ID
-    GCM_KEY: $GCM_KEY
-    PRODUCTION_PFX: $PRODUCTION_PFX
-    PRODUCTION_BUNDLE_ID: $PRODUCTION_BUNDLE_ID
-    PRODUCTION_CERT: $PRODUCTION_CERT # prodCert.pem
-    PRODUCTION_KEY: $PRODUCTION_KEY # prodKey.pem
-    DEV_PFX: $DEV_PFX
-    DEV_BUNDLE_ID: $DEV_BUNDLE_ID
-    DEV_CERT: $DEV_CERT # devCert.pem
-    DEV_KEY: $DEV_KEY # devKey.pem
-    VERIFY_USER_EMAILS: $VERIFY_USER_EMAILS # false
-    ENABLE_ANON_USERS: $ENABLE_ANON_USERS # true
-    ALLOW_CLIENT_CLASS_CREATION: $ALLOW_CLIENT_CLASS_CREATION # true
-    APP_NAME: $APP_NAME
-    PUBLIC_SERVER_URL: $PUBLIC_SERVER_URL
-    TRUST_PROXY: $TRUST_PROXY
+    MAX_UPLOAD_SIZE: $MAX_UPLOAD_SIZE
   links:
     - mongo
   volumes_from:
@@ -75,12 +59,7 @@ parse-dashboard:
     APP_ID: $APP_ID
     MASTER_KEY: $MASTER_KEY
     APP_NAME: $APP_NAME
-    PARSE_DASHBOARD_ALLOW_INSECURE_HTTP: $PARSE_DASHBOARD_ALLOW_INSECURE_HTTP
-    USER1: $USER1
-    USER1_PASSWORD: $USER1_PASSWORD
   ports:
     - "4040:4040"
-#  volumes:
-#    - "parse-dashboard-config.json:/src/Parse-Dashboard/parse-dashboard-config.json"
 
 # vim:set et ts=2 sw=2:

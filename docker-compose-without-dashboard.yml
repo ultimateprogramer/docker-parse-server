@@ -59,28 +59,4 @@ mongo-data:
   volumes:
     - /data/db
   command: "--break-mongo"
-
-parse-dashboard:
-  image: yongjhih/parse-dashboard
-  links:
-    - parse-server
-  environment:
-    PARSE_SERVER_URL: $PARSE_SERVER_URL
-    PARSE_APP_ID: $PARSE_APP_ID
-    PARSE_MASTER_KEY: $PARSE_MASTER_KEY
-    PARSE_JS_KEY: $PARSE_JS_KEY
-    PARSE_REST_KEY: $PARSE_REST_KEY
-    PARSE_APP_NAME: $PARSE_APP_NAME
-    SERVER_URL: $SERVER_URL
-    APP_ID: $APP_ID
-    MASTER_KEY: $MASTER_KEY
-    APP_NAME: $APP_NAME
-    PARSE_DASHBOARD_ALLOW_INSECURE_HTTP: $PARSE_DASHBOARD_ALLOW_INSECURE_HTTP
-    USER1: $USER1
-    USER1_PASSWORD: $USER1_PASSWORD
-  ports:
-    - "4040:4040"
-#  volumes:
-#    - "parse-dashboard-config.json:/src/Parse-Dashboard/parse-dashboard-config.json"
-
 # vim:set et ts=2 sw=2:
