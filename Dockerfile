@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:5
 
 ENV PARSE_HOME /parse
 
@@ -6,7 +6,6 @@ ENV PARSE_HOME /parse
 #ADD *.js ${PARSE_HOME}/
 #ADD *.json ${PARSE_HOME}/
 
-ADD index.js ${PARSE_HOME}/
 ADD package.json ${PARSE_HOME}/
 
 ADD jsconfig.json ${PARSE_HOME}/
@@ -20,6 +19,8 @@ ADD cloud/*.js $CLOUD_CODE_HOME/
 
 WORKDIR $PARSE_HOME
 RUN npm install
+
+ADD index.js ${PARSE_HOME}/
 
 ## ENV
 #ENV APP_ID myAppId
@@ -44,19 +45,4 @@ EXPOSE $PORT
 VOLUME $CLOUD_CODE_HOME
 ENV NODE_PATH .
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends openssh-server && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-ENV SSH_PORT 2022
-EXPOSE $SSH_PORT
-
-ADD ssh-add-key /sbin/
-
-RUN useradd -s /bin/bash git
-RUN echo "git ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-ADD docker-entrypoint.sh /
-ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["npm", "start"]
